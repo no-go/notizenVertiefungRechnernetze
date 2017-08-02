@@ -162,13 +162,20 @@ Das ist heute nicht mehr so ein Problem:
 
 - wieder Van Jacobson, Herr M. J. Karels
 - Lawrence Berkeley Lab, Uni of California
+- Untersuchung und Begründung zu Verstopfungen im Netzwerk und Verfahren zur Erkennung und Behebung
 - Nov 1988
-- sofort erneutes Senden bei Paketverlust unsinnig; Fenstergröße halbieren besser.
 - ACM SIGCOMM
 
 ## Inhaltlicher Aufbau / Argumentationen
 
 ## Kernaussagen
+
+- wollen ein Bit bzgl Verstopfung im Header haben
+- sofort erneutes Senden bei Paketverlust unsinnig; Fenstergröße halbieren besser.
+- Begründung zur Fensterhalbierung bei Verstopfung
+- Konzept des langsamen Anwachsens der Fenstergröße beim Verbindungsaufbau bzw nach langer Pause
+- sofort erneutes Senden bei Paketverlust verstopf nur noch mehr
+- Paketverlust eigentlich immer nur, weil Verstopfung da ist
 
 ## Stichworte
 
@@ -195,11 +202,23 @@ Das ist heute nicht mehr so ein Problem:
 
 ## Inhaltlicher Aufbau / Argumentationen
 
+- Überlegungen bzgl. alternative zu CPU-lastigen Verfahren (z.B. Würfeln nach Zeitspanne)
+- Problem: Coin 2x ausgeben
+- Problem: Coin ausgegeben, aber verteiltes System behauptet, es sei nicht passiert (ungültig?)
+
 ## Kernaussagen
 
+- trotz spezieller Dienste: Bitcoin ist nicht anonym (wer mit wem) !
+- problematisch sind chains, die versteckt ablaufen und dann plötzlich ins "Spiel" kommen
 - es funktioniert und problematische Angriffe bzgl. Zusammenbruch von Keinem gewollt
 
 ## Stichworte
+
+Inflation
+:   das Fee, was man bekommt, erhöht im System die Anzahl der Coins. Gegenmaßnahmen: ...
+
+Bitcoin
+:   ein Bitcoin gibt es nicht - die Coins haben keine ID
 
 ## Begriffe
 
@@ -294,8 +313,14 @@ $$ \frac{\epsilon}{1- \kappa} \leq \mu $$
 ## Inhaltlicher Aufbau / Argumentationen
 
 - Wir stellen COPE vor
+- so und so viel schneller ...
 
 ## Kernaussagen
+
+- Erweiterung und daher nie schlechter
+- TCP muss wegen Packetreihenfolge gepuffert werden
+- mitgehörte Packete werden in einem Buffer für große und kleine Packete hinzugemischt
+- Problem der Hidden Terminals ?!?!
 
 ## Stichworte
 
@@ -323,11 +348,36 @@ $$ \frac{\epsilon}{1- \kappa} \leq \mu $$
 
 ## Inhaltlicher Aufbau / Argumentationen
 
+- Auflistung, was es schon gibt
+- ...
+- ist Bitmask Füllrate unter 30%, wird nur via Hitcounting ausgewertet (erste Zeile/Spalte?) der vir. Matrix
+- 1. Trick: Zufall statt Hash
+- 2. Trick: Hash für Matrixpos und flowid
+- 3. Trick: Hitcounting (nur geom. Verteilung betrachten) bei geringer Füllrate
+
+
 ## Kernaussagen
+
+- zählen muss in wenigen Nanosekunden erfolgen
+- Mischung geometrisch (Größenordnung) und normalverteilter (reduzierung falsch positiver Bitsetzung) Zufallsgenerator: wird mit flow id gehasht und in Bitmaske ein Bit gesetzt
+- unwichtig, wie aufwändig man hinterher an die Zahlen kommt
+- kleine Zahlen werden anders gezählt
+- genauer (kleine Zahlen) und weniger aufwändig, als bisherige Verfahren (MRSCBF)
 
 ## Stichworte
 
+virtuelle Matrizen
+:   eine Art fake FM-Sketch
+
+Bloom-Filter
+:   erkennen, ob etwas in einer Teilmenge enthalten ist
+
+FM-Sketch
+:   wie viel bzw. Größenordnung einer Teilmenge
+
 ## Begriffe
+
+- Wie funktionieren FM-Sketches?
 
 ## Kritik am Paper
 
@@ -355,6 +405,8 @@ $$ \frac{\epsilon}{1- \kappa} \leq \mu $$
 
 ## Kernaussagen
 
+- Wer/ob man es nutzt, ist erkennbar!
+- Wer mit wem kommuniziert ist nur erschwert erkennbar (gewisser Hardwareaufwand und tricks nötig)
 - Es hilft nicht bei Protokollen, die von sich aus unverschlüsselt Userdaten übertragen
 - Es hilft nicht gegen Angriffe auf mehrere Knoten einer Verbindung
 - Es hilft gegen Angriffe auf einen speziellen Konten durch Umleitungen und Verschlüsselung der Verbindungsinfos
@@ -362,5 +414,15 @@ $$ \frac{\epsilon}{1- \kappa} \leq \mu $$
 ## Stichworte
 
 ## Begriffe
+
+Ablauf (HTTPS)
+:   so und so
+
+Ablauf Hidden Service
+:   rendvous points ...
+
+Onion Routing
+:   jeder Hop ist verschlüsselt ...
+
 
 ## Kritik am Paper
