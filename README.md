@@ -422,7 +422,9 @@ Ablauf Hidden Service
 :   rendvous points ...
 
 Onion Routing
-:   jeder Hop ist verschlüsselt ...
+:   Die Hops sind in einer *onion* verschlüsselt (also mehrfach verschlüsselt).
 
+teleskope path building
+:   im gegensatz zur Onion wird hierbei zu jedem Hop eine eigene verschlüsselte Session aufgebaut.
 
 ## Kritik am Paper
