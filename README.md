@@ -72,8 +72,6 @@ Bugs ist derart, dass ein komplexer Handshake wie bei TCP im Ernstfall nicht
 mehr möglich ist.
 
 
-## Kritik am Paper
-
 
 
 
@@ -168,6 +166,59 @@ Das ist heute nicht mehr so ein Problem:
 
 ## Inhaltlicher Aufbau / Argumentationen
 
+ -  Autoren beobachteten, dass 10% der Pakets am Gateway wegen überfüllter Buffer gedroppt wird
+ -  es gab 1986 einen Crash: 32000bps auf 40bps
+ -  Problem liegt in TCP Protokollimplementierung
+ -  Verbesserung 4BSD TCP in diesem Paper beschrieben:
+     -  bessere Roundtrip Time Abschätzung
+     -  exponentieller Timer bei erneutem Senden
+     -  slow-start
+     -  dynamisch Fensteranpassung bei Verstopfung
+ -  Gründe dafür, dass die Sender-Empfänger-Sender Schleife und das "Konservieren der Pakete in der Leitung" gestört ist:
+     -   die Verbindung ist von Beginn an bereits gestört
+     -   der Sender fügt bereits Pakete hinzu, obwohl alte Pakete noch nicht angekommen sind
+     -   durch Resourcenlimit entlang des Pfads kann nie eine gleichmäßige Verbindung erreicht werden
+
+Das Paper arbeitet sich an diesen 3 letzten Punkten ab
+
+### Slow-Start
+
+- um ein "equilibrium" zu Anfang erreichen zu können, darf man nicht bereits zu Anfang mit Kanonen auf Spatzen schießen
+- der erste Schwall an Paketen einer 10Mbps Leitung kann eine 56kbps Verbindung bereits dauerhaft einen dauerhaften Schaden anrichten
+- Fenstergröße öffnet sich nach jedem ACK linear
+- bei Verlust oder nach langer Pause startet es wieder mit kleiner Fenstergröße
+- Es wird das minimum aus der Berechneten und der "veröffentlichten" Fenstergröße genommen
+
+### Roundtrip Time - Wann kann ich ein ACK erwarten?
+
+ -  bei Last $\rho$ skaliert die RRT mit $(1 - \rho)$
+ -  man hatte im April 88 und einer Auslastung von 75% im Arpanet eine RRT die um das 16fache variierte
+ -  bisheriger Tiefpassfilter für die RRT anhand gemessender ACKs schlecht:
+     -  bei einem Load von 30% varriert RRT zu stark
+     -  die falsche vorhersage der RRT ist wie Benzin ins Feuer kippen
+     -  obwohl Leitung belastet, werden unnötig Re-Transmits hinzugefügt
+     -  eigentlich kommen ACKs nur verspätet an
+     -  Leitung verstopft noch mehr
+
+Argumentation bzgl. exponetielles Warten bei (vermutetem) Packetverlust:
+
+- Netzwerk ist in etwa ein lineares System
+- Ein lin. System sei stabil, wenn die stabilität exponentiell ist
+- Wenn ein zufälliger load Shock die Stabilität zerstört, bekommt man es nur mit expon. Eingriff wieder hin
+
+### Verstopfungsvermeidung
+
+- Packetverlust eigentlich immer weil ein Buffer zu voll ist
+- unter 1 % der Packete kommen nicht an, weil kaputt
+- Puffer ist an Bandbreite angepasst
+- Paketverlust erkennen heißt Verstopfung erkennen
+- wenn alle, die über die verstopfte Stelle senden, ihre Fenstergröße bei Verstopfung halbieren, dann ist schnell allen geholfen
+- Fenstergröße dann immer um einen konstanten Wert nach ACK anwachsen lassen
+- konstant: geht schnell genug und ist "feiner" als multiplikativ
+- multiplikativ: würde ein oszilierendes Verhalten verursachen
+- Vorsicht: Algorithmus muss mit "slow-start" kombiniert werden!
+
+
 ## Kernaussagen
 
 - wollen ein Bit bzgl Verstopfung im Header haben
@@ -177,14 +228,9 @@ Das ist heute nicht mehr so ein Problem:
 - sofort erneutes Senden bei Paketverlust verstopf nur noch mehr
 - Paketverlust eigentlich immer nur, weil Verstopfung da ist
 
-## Stichworte
-
-## Begriffe
-
 ## Kritik am Paper
 
-
-
+- (zu) viel in Fußnoten, Anhang andere Paper ausgelagert
 
 
 
@@ -268,8 +314,12 @@ Gleichzeitig
 :   a und b ist gleichzeitig, wenn kein Nachrichtenaustausch zwischen a
 und b passiert und daher keine Aussage getroffen werden kann, ob a vor b, oder b vor a passiert.
 
-Strong Clock Condition
-:   ?
+schwaches Konsistenzkriterium
+:    gilt $a \rightarrow b$ dann folgt daraus, dass die Uhr von a einen kleineren Wert hatte, als die von b
+
+Strong Clock Condition (starkes K.k.)
+:   auch die Umkehrung (genau dann, wenn) gilt. Nebenläufige/Unabh. Ereignisse sind dann erkennbar. Implementierung als Vektoruhren und erkennung durch part. Ordnung.
+
 
 ### PC1
 

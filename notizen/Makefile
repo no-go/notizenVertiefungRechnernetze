@@ -28,4 +28,3 @@ clean:
 	rm -rf _template.vrb
 	rm -rf _template.ps
 	rm -rf _template.dvi
-	rm -rf bsymb.*
