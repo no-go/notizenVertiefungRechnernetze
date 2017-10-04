@@ -298,27 +298,33 @@ Bitcoin
 
 ## Kernaussagen
 
-- aus Hierarchie der Prozesse und deren Zeit kann man beim mitführen des "lokalen Zeit" Zeitstemples das Ereignis "total" Einordnen
+- aus Hierarchie der Prozesse und deren Zeit kann man beim Mitführen des "lokalen Zeit" Zeitstemples das Ereignis "total" einordnen
 - die schnellste Uhr dominiert
-- mit echten Uhren kann man auch Bezüge zu Events außerhalb des Systems hestellen
+- mit echten Uhren kann man auch Bezüge zu Events außerhalb des Systems herstellen
 - besser, wenn man keine echte Uhrzeit nimmt
+- durch eine totale Ordnung kann das System als "State Maschine" betrachtet werden
 
 ## Stichworte
 
 ## Begriffe
 
+anormales Verhalten
+:   A happend before B aber die Uhr von A ist nicht kleiner als die von B. Es wird eine Uhr (z.B. Vektoruhr) gebraucht, die die Strong Clock Condition erfüllt
+
 Happend Before Relation
-:   Die Relation $a \rightarrow b$ heißt: a passiert vor b, a sendet, b empfängt, transitiv (Dreiecksungleichung)
+:   Die Relation (fetter Pfeil) $a \rightarrow b$ heißt: a passiert vor b, a sendet, b empfängt, transitiv (Dreiecksungleichung)
 
 Gleichzeitig
-:   a und b ist gleichzeitig, wenn kein Nachrichtenaustausch zwischen a
-und b passiert und daher keine Aussage getroffen werden kann, ob a vor b, oder b vor a passiert.
+:   a und b ist gleichzeitig, wenn kein Nachrichtenaustausch zwischen a und b passiert und daher keine Aussage getroffen werden kann, ob a vor b, oder b vor a passiert. Bei Vektoruhren liefert before(a,b) und before(b,a) jeweils NICHT.
 
-schwaches Konsistenzkriterium
-:    gilt $a \rightarrow b$ dann folgt daraus, dass die Uhr von a einen kleineren Wert hatte, als die von b
+schwaches Konsistenzkriterium (oder nur "Clock Condition")
+:    gilt $a \rightarrow b$ dann folgt daraus, dass die Uhr von a einen kleineren Wert hatte, als die von b. VORSICHT ! Das bedeutet nicht, dass a "Happend Before" b gilt!
 
 Strong Clock Condition (starkes K.k.)
-:   auch die Umkehrung (genau dann, wenn) gilt. Nebenläufige/Unabh. Ereignisse sind dann erkennbar. Implementierung als Vektoruhren und erkennung durch part. Ordnung.
+:   auch die Umkehrung (genau dann, wenn) gilt. Nebenläufige/Unabh. Ereignisse sind dann erkennbar. Implementierung als Vektoruhren und Erkennung durch partielle Ordnung.
+
+Vektoruhr
+:   a passierte nicht vor b, wenn min. eine Prozess-Zeit-Komponente des Vektors von a größer ist als die jeweilige von b
 
 
 ### PC1
@@ -364,6 +370,7 @@ $$ \frac{\epsilon}{1- \kappa} \leq \mu $$
 
 - Wir stellen COPE vor
 - so und so viel schneller ...
+- Zeitspanne zum Verfall mitgehorchter Pakete ?
 
 ## Kernaussagen
 
@@ -378,7 +385,7 @@ $$ \frac{\epsilon}{1- \kappa} \leq \mu $$
 
 ## Kritik am Paper
 
-
+- bei Implementierung ein wenig die Schichten vermischt
 
 
 
@@ -400,7 +407,8 @@ $$ \frac{\epsilon}{1- \kappa} \leq \mu $$
 
 - Auflistung, was es schon gibt
 - ...
-- ist Bitmask Füllrate unter 30%, wird nur via Hitcounting ausgewertet (erste Zeile/Spalte?) der vir. Matrix
+- ist in den 50/50 (geoverteilt) Feldern >30% noch Null, dann Hitcounting
+- Hitcounting nutzt Füllrate des Bitarrays zur Ermittling der "false positive" Bits
 - 1. Trick: Zufall statt Hash
 - 2. Trick: Hash für Matrixpos und flowid
 - 3. Trick: Hitcounting (nur geom. Verteilung betrachten) bei geringer Füllrate
@@ -465,16 +473,27 @@ FM-Sketch
 
 ## Begriffe
 
-Ablauf (HTTPS)
-:   so und so
+Ablauf DNS
+:   DNS ist normalerweise UDP und passiert vor Verbindungsaufbau. Privoxy als HTTP Proxy übernimmt das, so dass DNS nicht vorher passiert.
 
 Ablauf Hidden Service
-:   rendvous points ...
+
+- Bob hinterlegt signiert infos senes service auf lookup service ab
+- Bob baut zu ORs Verbindungen auf, die als Introduction Points (IP) dienen
+- Alice bekommt von Bob info über, dass er einen Service hat
+- Alice holt infos bei lookup service ab
+- Alice baut zu ORs Verbindungen auf, die als Rendevous Points (RP) dienen
+- Alice teilt einem IP ihre RPs mit + rendevous Cookie
+- Bob teilt einem RP von Alice ihren rendevous Cookie mit und einen Session Key
+- Ab jetzt läuft alles nur zwischen Bob-service-OP-OR-...IP-RP-...OR-OP-client-Alice
+- Service und Client müssen nur mit Domains der Art "authCookie.ServicepupKeyHash.onion" umgehen können und müssen nicht angepasst werden
 
 Onion Routing
 :   Die Hops sind in einer *onion* verschlüsselt (also mehrfach verschlüsselt).
 
 teleskope path building
-:   im gegensatz zur Onion wird hierbei zu jedem Hop eine eigene verschlüsselte Session aufgebaut.
+:   im Gegensatz zur Onion wird hierbei zu jedem Hop eine eigene verschlüsselte Session aufgebaut.
+
+Zur Verbindung zwischen Alice und Bob sind mind. 2 Onion Router (OR) nötig, um ein Ziel zu erreichen: Der erste "Hop" kennt Alice aber Bob nicht. Der 2. Hop (OR) kennt nur Bob (das Ziel) und den OR vor Alice.  
 
 ## Kritik am Paper
