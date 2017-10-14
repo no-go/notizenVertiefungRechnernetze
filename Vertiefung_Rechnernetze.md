@@ -1,10 +1,9 @@
 
-Das ist ein kleiner Überblick über die Paper und deren Inhalte, um effizient
-für die Prüfung lernen zu können.
+Das ist ein kleiner Überblick über die Paper und deren Inhalte, um effizient für die Prüfung lernen zu können.
 
-**unvollständig**
+**unvollständig und möglicherweise nicht ganz (inhaltlich) fehlerfrei**
 
-# 01 - Design Phil von DARPA
+# Design Phil von DARPA
 
 [Link zum Paper](http://ccr.sigcomm.org/archive/1995/jan95/ccr-9501-clark.pdf)
 
@@ -74,7 +73,7 @@ mehr möglich ist.
 
 
 
-# 02 - Selbstähnlichkeit von Ethernet Traffik
+# Selbstähnlichkeit von Ethernet Traffik
 
 [Link zum Paper](http://ccr.sigcomm.org/archive/1995/jan95/ccr-9501-leland.pdf)
 
@@ -120,7 +119,7 @@ Hurst Effekt
 
 
 
-# 03 - Synchronisation periodisch Routing Nachrichten/Traffik
+# Synchronisation periodisch Routing Nachrichten/Traffik
 
 [Link zum Paper](https://www2.cs.arizona.edu/classes/cs525/papers/fj93_sync.pdf)
 
@@ -158,7 +157,7 @@ Das ist heute nicht mehr so ein Problem:
 
 
 
-# 04 - Verstopfungsvermeidung und Kontrolle
+# Verstopfungsvermeidung und Kontrolle
 
 [Link zum Paper](https://people.eecs.berkeley.edu/~sylvia/papers/congavoid.pdf)
 
@@ -168,7 +167,7 @@ Das ist heute nicht mehr so ein Problem:
 - Lawrence Berkeley Lab, Uni of California
 - Untersuchung und Begründung zu Verstopfungen im Netzwerk und Verfahren zur Erkennung und Behebung
 - Nov 1988
-- ACM SIGCOMM
+- ACM SIGCOMM (bekommste da was eingereicht, hasste Dr. quasi inner Tasche)
 
 ## Inhaltlicher Aufbau / Argumentationen
 
@@ -197,11 +196,11 @@ Das Paper arbeitet sich an diesen 3 letzten Punkten ab
 
 ### Roundtrip Time - Wann kann ich ein ACK erwarten?
 
- -  bei Last $\rho$ skaliert die RRT mit $(1 - \rho)$
- -  man hatte im April 88 und einer Auslastung von 75% im Arpanet eine RRT die um das 16fache variierte
- -  bisheriger Tiefpassfilter für die RRT anhand gemessender ACKs schlecht:
-     -  bei einem Load von 30% varriert RRT zu stark
-     -  die falsche vorhersage der RRT ist wie Benzin ins Feuer kippen
+ -  bei Last $\rho$ skaliert die RTT mit $(1 - \rho)$
+ -  man hatte im April 88 und einer Auslastung von 75% im Arpanet eine RTT die um das 16fache variierte
+ -  bisheriger Tiefpassfilter für die RTT anhand gemessender ACKs schlecht:
+     -  bei einem Load von 30% varriert RTT zu stark
+     -  die falsche vorhersage der RTT ist wie Benzin ins Feuer kippen
      -  obwohl Leitung belastet, werden unnötig Re-Transmits hinzugefügt
      -  eigentlich kommen ACKs nur verspätet an
      -  Leitung verstopft noch mehr
@@ -241,7 +240,49 @@ Argumentation bzgl. exponetielles Warten bei (vermutetem) Packetverlust:
 
 
 
-# 06 - Zeit, Ordnung und die synchr. in Verteilten Systemen
+# Bitcoin und mehr: tech. Überblick dezentraler digitaler Währungen
+
+Ich habe viele Notizen gemacht aber ich befürchte, weil die Veranstaltung+Prüfung auch zu Ende ist, dass ich nicht mehr dazu komme speziell den Teil der Skripte und das Mining
+
+[Link zum Paper](https://eprint.iacr.org/2015/464.pdf)
+
+## Autoren, Jahr, Motivation
+
+- Herr Tschorsch/Scheuermann
+- ca 2015
+- Humboldt Uni Berlin
+- Überblick: Technik, Wildwuchs, Probleme, Sicherheit, Aussicht
+- Eingereicht: IEEE ?
+
+## Inhaltlicher Aufbau / Argumentationen
+
+- Überlegungen bzgl. alternative zu CPU-lastigen Verfahren (z.B. Würfeln nach Zeitspanne)
+- Problem: Coin 2x ausgeben
+- Problem: Coin ausgegeben, aber verteiltes System behauptet, es sei nicht passiert (ungültig?)
+
+## Kernaussagen
+
+- durch asym. Schlüssel wird nachgewiesen, dass der Ausgang (und die neue "Einlage" für neue Transaktion) wirklich von einem ist. 
+- trotz spezieller Dienste: Bitcoin ist nicht anonym (wer mit wem) !
+- problematisch sind chains, die versteckt ablaufen und dann plötzlich ins "Spiel" kommen
+- es funktioniert und problematische Angriffe bzgl. Zusammenbruch von Keinem gewollt
+
+## Stichworte
+
+Skalierbarkeit
+:   aktuell nur 4 Transaktionen/Sec im GANZEN verteilten System Bitcoin. Wolle man dies erhöhen stößt man auf Grenzen, da mit mehr Transaktionen pro Sek. auch Blöcke und somit die Chains länger werden. Das macht Konflikte wahrscheinlicher, es müssen im Netzwerk längere Chains (und somit viel mehr Daten) ausgetauscht werden. Dies ginge nur mit einem fat- und thin-Client Konzept (z.B. dogecoin).
+
+Inflation
+:   das Fee, was man bekommt, erhöht im System die Anzahl der Coins. Gegenmaßnahmen: initial 50, ca alle 4 Jahre (alle 210000 Blocks) halbierung. 2140 ende und 10exp-8 BTC = 1 satoshi
+
+Transaktionsgebühr
+:   Der die längste Block-Chain und somit den meisten Transaktionen publiziert bekommt, Gewinnt das Fee und die Transaktionsgebühren aller Transaktionen.
+
+
+
+
+
+# Zeit, Ordnung und die synchr. in Verteilten Systemen
 
 [Link zum Paper](http://amturing.acm.org/p558-lamport.pdf)
 
@@ -266,6 +307,29 @@ Argumentation bzgl. exponetielles Warten bei (vermutetem) Packetverlust:
 - mit echten Uhren kann man auch Bezüge zu Events außerhalb des Systems herstellen
 - besser, wenn man keine echte Uhrzeit nimmt
 - durch eine totale Ordnung kann das System als "State Maschine" betrachtet werden
+
+## State Maschine bei verteiltem Resourcenzugriff
+
+Weil ich in der Prüfung an der Stelle etwas ins straucheln kam, hab ich es nochmal nachgelesen.
+
+### Daten
+
+- Jeder Prozess kennt die Anzahl aller beteilgten Prozesse
+- Jeder Prozess hat seine eigene Uhr (in dem Fall kein Vektoruhr - also nur schwache Clock Condition/Lamport Uhr)
+- Jeder Prozess hat EINE Resource
+- Jeder Prozess hat eine Liste mit Resourcenzugriffen (Zeistempel+Prozessnummer)
+
+### Algorithmus
+
+- Ein Prozess i sendet Resourcenanfrage (Req) (Zeistempel + Prozessnummer i) an alle und fügt diesen in seine Queue
+- Ein Prozess j bekommt diese Res.Anfrage und antwortet mit seinem aktuellem Zeitstempel (falls j nich bereits eine Nachricht mit älterem Zeitstempel als den Empfangenen an i gesendet hat.
+- Zugriff auf Resource aufheben: i entfernt Req. aus Liste und sendet an alle (Zeistempel+Prozessnummer) zum Release der Resource
+- Prozess j bekommt Release-Nachricht: j entfernt den Request aus Liste
+- Prozess i darf auf Resource zugreifen, wenn (I) es der älteste Request auf seine Resource in seiner Liste ist und (II) Prozess i von allen anderen Prozessen (z.B. durch die ACKs) sicher sein kann, dass bei denen die Zeit bereits weiter geschritten ist (Zeitstempel höher)
+
+Im Grunde wird nur durch Fluten eine Request-Liste an alle Prozesse verteilt und durch die Zeitstempel wird dafür gesorgt, dass der Prozess, der auf die Resource zugreift, auch wirklich den kleinsten (frühsten) Zeitstempel hat.
+
+Kritik: Fluten. Was bei Fehlern? Wie mit Churn umgehen?
 
 ## Begriffe
 
@@ -301,9 +365,11 @@ Es existiert ein oberes Maß, wie stark Uhren zur selben Zeit abweichen. $\epsil
 Auf der Basis von PC1 und PC2 und dem sync Algorithmus beim Datenaustausch,
 der die Uhren nie zurück stellt, folgt:
 
-- anormales Verhalten ist nicht möglich, wenn ungefähr die Zeit $\mu$ zum Transver der Nachricht größer ist, als die obigen Werte "zusammen"
+- anormales Verhalten ist nicht möglich, wenn ungefähr die Zeit $\mu$ zum Transver der Nachricht größer ist, als die obigen Werte "zusammen". Konkret:
 
 $$ \frac{\epsilon}{1- \kappa} \leq \mu $$
+
+Oh Wunder: Wie oben für ein Verteiltes System definiert wird an dieser Formel klar, warum die Zeit zum Nachrichtenaustausch nicht vernachlässigbar ist :-D
 
 ## Kritik am Paper
 
@@ -312,7 +378,44 @@ $$ \frac{\epsilon}{1- \kappa} \leq \mu $$
 
 
 
-# 08 - Accountweise Transfermessung durch wkeitbassiertes Zählen
+
+# Datenreduktion durch XOR Kodierung in kabellosen Netzwerken
+
+[Link zum Paper](http://nms.csail.mit.edu/~sachin/papers/copesc.pdf)
+
+## Autoren, Jahr, Motivation
+
+- div. Autoren & Autorinnen (inkl. Jon Crowcroft der Uni Cambridge)
+- Sep 2006
+- SIGCOMM
+- Nutzung der Routingprotokolle und des Broadcast Charakters von Wifi, um optional Pakete zusammen zu mischen.
+
+## Kernaussagen
+
+- Wifi ist im Grunde immer Broadcast, daher sind an Knoten Pakete vorhanden/kommen an, die für sie nicht bestimmt sind
+- COPE: Zeitspanne zum Verfall mitgehorchter Pakete: 5 sec
+- Erweiterung und daher nie schlechter
+- TCP muss wegen Packetreihenfolge gepuffert werden
+- mitgehörte Packete werden in einem Buffer für große und kleine Packete hinzugemischt
+- Problem der Hidden Terminals (das sind die Knoten, die im Grunde nur den Hotspot und nicht die anderen Teilnehmer hören)
+- Wegen Hidden Terminals kommt es in Wifi oft zu Paket/Funk Kollisionen. Da TCP beim nicht-ankommen eines Packets alles von neuem senden muss, ist TCP mit Wifi schlecht und COPE entsprechend unperformant.
+
+## Stichworte
+
+Coding Gain
+:   In der Theorie kann man mit einer unendlich langen Kette max den Faktor 2 bzgl. des Einsparens an Packeten erreichen. Unendlich, weil am Kettenanfang und Ende kein Coding passieren kann.
+
+Coding+Mac Gain
+:   Betrachtet man die übertragene Datenmenge und die durch das MAC-Protokoll aufgeteilte Bandbreite an alle Teilnehmer, so führt eine Rad-(Speichen)-Anordnung (mit unendlich vielen Teilnehmern) zu einem unendlich großen Gain. Auch wenn der Router nur eine minimale Bandbreite nutzen darf, so kann er alle Packete in nur einem Packet übertragen.
+
+## Kritik am Paper
+
+- bei Implementierung ein wenig die Schichten vermischt
+- Coding ist in der Paxis bei normalen Wifi mit enormen gewinn anwendbar!
+
+
+
+# Accountweise Transfermessung durch wkeitbassiertes Zählen
 
 [Link zum Paper](https://wwwcn.cs.uni-duesseldorf.de/publications/publications/library/Lieven2010a.pdf)
 
@@ -321,7 +424,7 @@ $$ \frac{\epsilon}{1- \kappa} \leq \mu $$
 - Herr Lieven, Herr Scheuermann
 - 2010 (IEEE)
 - Uni Düsseldorf
-- Weiterentwicklung von FM Sketches zur CPU- und speichereff. Zählung auf Routern
+- Weiterentwicklung von FM Sketches zur CPU- und speichereff. Zählung auf Routern (PMC)
 
 ## Inhaltlicher Aufbau / Argumentationen
 
@@ -347,15 +450,14 @@ virtuelle Matrizen
 :   eine Art fake FM-Sketch
 
 Bloom-Filter
-:   erkennen, ob etwas in einer Teilmenge enthalten ist
+:   erkennen, ob etwas nicht in einer Teilmenge enthalten ist (Element wird durch k-viele Hashes auf ein Index eines Bitarray gemappt). Steuung der Hashes soll dafür sorgen, dass man auf jeden Fall mit hoher Wkeit sagen kann, dass ein Element enthalten ist. Auf JEDEN FALL kann man aber sagen, dass ein Element nicht in der Teilmenge ist (es müssen alle Bits der Hashes des Elements nicht 0 sein).
 
 FM-Sketch
-:   wie viel bzw. Größenordnung einer Teilmenge
+:   wie viel bzw. Größenordnung einer Teilmenge. Eine Art Schrotflinte, die auf eine Stelle einer Wand ziehlt. Das Weiter gestreute Punkte auftauchen ist unwahrsch. aber mit Anzahl der Schüsse wahrscheinlicher. Es wird eine geometrische Verteilung beim Setzen eines Bits in Bitarray genutzt (z.B. Anzahl der Nullen am Anfang oder Ende einer Binärdarstellung der Zahl, die Beobachtet wurde). PMC streut dann noch mit normaler Zufallsfunktion auf mehrere Bitreihen, um false-positive Rate zu reduzieren.
 
 
 
-
-# 09 - Tor: die 2. Generation des Onion Routings
+# Tor: die 2. Generation des Onion Routings
 
 [Link zum Paper](https://www.onion-router.net/Publications/tor-design.pdf)
 
@@ -403,85 +505,3 @@ teleskope path building
 :   im Gegensatz zur Onion wird hierbei zu jedem Hop eine eigene verschlüsselte Session aufgebaut.
 
 Zur Verbindung zwischen Alice und Bob sind mind. 2 Onion Router (OR) nötig, um ein Ziel zu erreichen: Der erste "Hop" kennt Alice aber Bob nicht. Der 2. Hop (OR) kennt nur Bob (das Ziel) und den OR vor Alice.  
-
-
-
-
-
-
-
-
-
-
-# TODO 05 - Bitcoin und darüber hinaus: tech. Überblick dezentraler digitaler Währungen
-
-[Link zum Paper](https://eprint.iacr.org/2015/464.pdf)
-
-## Autoren, Jahr, Motivation
-
-- Herr Tschorsch/Scheuermann
-- ca 2015
-- Humboldt Uni Berlin
-- Überblick: Technik, Wildwuchs, Probleme, Sicherheit, Aussicht
-- Eingereicht: IEEE ?
-
-## Inhaltlicher Aufbau / Argumentationen
-
-- Überlegungen bzgl. alternative zu CPU-lastigen Verfahren (z.B. Würfeln nach Zeitspanne)
-- Problem: Coin 2x ausgeben
-- Problem: Coin ausgegeben, aber verteiltes System behauptet, es sei nicht passiert (ungültig?)
-
-## Kernaussagen
-
-- trotz spezieller Dienste: Bitcoin ist nicht anonym (wer mit wem) !
-- problematisch sind chains, die versteckt ablaufen und dann plötzlich ins "Spiel" kommen
-- es funktioniert und problematische Angriffe bzgl. Zusammenbruch von Keinem gewollt
-
-## Stichworte
-
-Inflation
-:   das Fee, was man bekommt, erhöht im System die Anzahl der Coins. Gegenmaßnahmen: initial 50, ca alle 4 Jahre (alle 210000 Blocks) halbierung. 2140 ende und 10exp-8 BTC = 1 satoshi
-
-Bitcoin
-:   ein Bitcoin gibt es nicht - die Coins haben keine ID
-
-## Begriffe
-
-## Kritik am Paper
-
-
-
-
-
-# TODO 07 - Datenreduktion durch XOR Kodierung in kabellosen Netzwerken
-
-[Link zum Paper](http://nms.csail.mit.edu/~sachin/papers/copesc.pdf)
-
-## Autoren, Jahr, Motivation
-
-- div. Autoren & Autorinnen (inkl. Jon Crowcroft der Uni Cambridge)
-- Sep 2006
-- SIGCOMM
-- Nutzung der Routingprotokolle und des Broadcast Charakters von Wifi, um optional Pakete zusammen zu mischen.
-
-## Inhaltlicher Aufbau / Argumentationen
-
-- Wir stellen COPE vor
-- so und so viel schneller ...
-- Zeitspanne zum Verfall mitgehorchter Pakete ?
-
-## Kernaussagen
-
-- Erweiterung und daher nie schlechter
-- TCP muss wegen Packetreihenfolge gepuffert werden
-- mitgehörte Packete werden in einem Buffer für große und kleine Packete hinzugemischt
-- Problem der Hidden Terminals ?!?!
-
-## Stichworte
-
-## Begriffe
-
-## Kritik am Paper
-
-- bei Implementierung ein wenig die Schichten vermischt
-
