@@ -1,7 +1,7 @@
 OUTFILE = ../Vertiefung_Rechnernetze
 
 all:
-	sed -e 's: ,,: \\glqq{}:g' $(OUTFILE).md > temp.md
+	sed -e 's: ,,: \\glqq{}:g' README.md > temp.md
 	# png ist in Markdown gut, aber eps ist in LaTeX besser. Beide Bilddateien noetig
 	sed -i -e 's:\.png):\.eps):g' temp.md
 	# in diesem Fall sind die Bilder im Notizen-Unterordner. Die LaTeX-Dateien aber auch!
